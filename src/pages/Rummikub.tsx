@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, IconButton } from '../components/Buttons';
-import { Title } from '../components/Titles';
+import { IconButton } from '../components/Buttons';
 import PlayerBlock from '../components/PlayerBlock';
 import { Plus } from "@phosphor-icons/react"
 import { Rummikub as RummikubVariables } from '../enum/pages-colors';
@@ -74,7 +73,7 @@ function Rummikub() {
   return (
     <div className="home-container">
       <div className="home-container_header">
-        <img src={LogoGame} width={300}/>
+        <img src={LogoGame} width={300} alt="Rummikub logo"/>
 
         <IconButton 
           onClick={addNewPlayer} 
