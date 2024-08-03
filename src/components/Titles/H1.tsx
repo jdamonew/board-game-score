@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 const handleSize = (size: string | undefined) => {
     switch (size) {
+        case "big":
+            return '50px' ;
         case "h1":
             return '32px' ;
         case "h2":
@@ -20,12 +22,14 @@ const handleSize = (size: string | undefined) => {
   };
 
   interface H1Props {
-    size?: 'h2' | 'h3'| 'h4'| 'h5'| 'h6',
+    size?: 'big' | 'h2' | 'h3'| 'h4'| 'h5'| 'h6',
   }
 
 export const H1 = styled.h1<H1Props>`
     color: black;
-    margin: 0;
+    margin: 10px 0;
     font-size: ${({ size }) => handleSize(size)};
+    font-weight: 800;
+
 `;
 

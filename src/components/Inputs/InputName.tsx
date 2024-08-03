@@ -20,17 +20,19 @@ const handleSize = (size: string | undefined) => {
   };
 
   interface InputProps {
+    color?: string,
     size?: 'h1' | 'h2' | 'h3'| 'h4'| 'h5'| 'h6',
   }
 
 export const Default = styled.input<InputProps>`
-    color: black;
+    color: ${({color}) => color ? color : "#ffffff" };
     margin: 0;
     font-size: ${({ size }) => handleSize(size)}; 
     text-align: center;
     border: none;
     background-color: transparent;
     font-weight: 600;
+    max-width: 300px;
 
     &:focus-visible{
         border: none;

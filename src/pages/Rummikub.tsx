@@ -1,63 +1,67 @@
 import { useEffect, useState } from 'react';
-import { IconButton } from '../components/Buttons';
+import { Button, IconButton } from '../components/Buttons';
 import { Title } from '../components/Titles';
 import PlayerBlock from '../components/PlayerBlock';
-import {Plus} from "@phosphor-icons/react";
-import { Default as DefaultStyle } from '../components/Buttons/Default';
-function Home() {
+import { Plus } from "@phosphor-icons/react"
+import { Rummikub as RummikubVariables } from '../enum/pages-colors';
+import LogoGame from '../assets/rummikub-logo.png'
+const gameName = "rummikub";
+
+function Rummikub() {
 
     const [players, setPlayers] = useState<any[]>([]);
     const [nextPlayer, setNextPlayer] = useState<number>(1);
 
     const addNewPlayer=()=>{
-         let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+         let lPlayers = JSON.parse(localStorage.getItem('rummikub') || '{}');
          if(lPlayers.length === 0){
-             localStorage.setItem('players',JSON.stringify([{player:`Player ${nextPlayer}`, score:0}]) )
+             localStorage.setItem('rummikub',JSON.stringify([{player:`Player ${nextPlayer}`, score:0}]) )
             }else{
-             localStorage.setItem('players',JSON.stringify([...lPlayers, {player:`Player ${nextPlayer}`, score:0}]) )
+             localStorage.setItem('rummikub',JSON.stringify([...lPlayers, {player:`Player ${nextPlayer}`, score:0}]) )
          }
 
          verifyLocalStorage()
     }
 
     const verifyLocalStorage=()=>{
-        if(!localStorage.getItem('players')){
-            localStorage.setItem('players', JSON.stringify(players))
-            localStorage.setItem('playerCount', JSON.stringify(players))
+        if(!localStorage.getItem(gameName)){
+            localStorage.setItem(gameName, JSON.stringify(players))
+            localStorage.setItem(`${gameName}-playerCount`, JSON.stringify(players))
         }else{
-            let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+            let lPlayers = JSON.parse(localStorage.getItem(gameName) || '{}');
             setPlayers(lPlayers)
             setNextPlayer(lPlayers.length+1)
         }
     }
 
     function resetScore(position: number, item:any){
-      let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+      let lPlayers = JSON.parse(localStorage.getItem(gameName) || '{}');
       lPlayers[position].score = 0;
-      localStorage.setItem('players', JSON.stringify(lPlayers))
+      localStorage.setItem(gameName, JSON.stringify(lPlayers))
       verifyLocalStorage();
 
     }
 
     function deletePlayer(position: number, item:any){
-      let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+      let lPlayers = JSON.parse(localStorage.getItem(gameName) || '{}');
       lPlayers.splice(position, 1)
-      localStorage.setItem('players', JSON.stringify(lPlayers))
+      localStorage.setItem(gameName, JSON.stringify(lPlayers))
       verifyLocalStorage();
 
     }
 
     function updateScore(position: number, item:any, value:number){
-      let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+      let lPlayers = JSON.parse(localStorage.getItem(gameName) || '{}');
       lPlayers[position].score = lPlayers[position].score + value;
-      localStorage.setItem('players', JSON.stringify(lPlayers))
+      localStorage.setItem(gameName, JSON.stringify(lPlayers))
       verifyLocalStorage();
     }
+
     function updateName(position: number, item:any, value:string){
       console.log(value);
-      let lPlayers = JSON.parse(localStorage.getItem('players') || '{}');
+      let lPlayers = JSON.parse(localStorage.getItem(gameName) || '{}');
       lPlayers[position].player = value;
-      localStorage.setItem('players', JSON.stringify(lPlayers))
+      localStorage.setItem(gameName, JSON.stringify(lPlayers))
       verifyLocalStorage();
     }
 
@@ -70,23 +74,29 @@ function Home() {
   return (
     <div className="home-container">
       <div className="home-container_header">
-        <Title size='big'> GAME SCORE </Title>
-        <IconButton onClick={addNewPlayer}> 
+        <img src={LogoGame} width={300}/>
+
+        <IconButton 
+          onClick={addNewPlayer} 
+          color={RummikubVariables.shadow}
+        > 
           <Plus color='#FFFFFF' size={20}/>
           New Player 
         </IconButton>
+
       </div> 
       <div className='players-container'>
         {players.map((item, index)=>(
           <PlayerBlock
-          key={index}
+            key={index}
             position={index}
             player={item}
             updateScore={updateScore}
             resetScore={resetScore}
             deletePlayer={deletePlayer}
             updateName={updateName}
-            stylesGame={DefaultStyle}
+            stylesGame = {RummikubVariables}
+
           />
         ))}
       </div> 
@@ -95,4 +105,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Rummikub;

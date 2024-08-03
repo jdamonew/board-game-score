@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react'
 import { Score } from '../Score'
 import { Divider } from '../Divide';
-import { Button, ButtonContainer } from '../Buttons';
+import { Button, ButtonContainer, IconButton } from '../Buttons';
 import { lessButtons, plusButtons } from '../../mocks/plusButtons';
 import HeaderBlock from './HeaderBlock';
 import DeletePlayer from './DeletePlayer';
 import { InputName } from '../Inputs';
+import { Block } from './Block';
+import { ArrowCounterClockwise, X } from '@phosphor-icons/react';
 
 interface PlayerModel {
     score: number;
     player: string;
 }
-
-
 interface PlayerBlockProps {
     position: number,
     player: PlayerModel;
+    stylesGame?: any;
     updateName: (key:number, item:any, value:string) => void
     updateScore: (key:number, item:any, value:number) => void
     resetScore: (key:number, item:any) => void
     deletePlayer: (key:number, item:any) => void
 }
 
-const PlayerBlock = ({position, player, updateScore, resetScore, deletePlayer, updateName}:PlayerBlockProps) => {
+const PlayerBlock = ({position, player, stylesGame, updateScore, resetScore, deletePlayer, updateName}:PlayerBlockProps) => {
   const [nameUpdate, setNameUpdate] = useState<string>('')
 
   useEffect(()=>{
@@ -30,34 +31,38 @@ const PlayerBlock = ({position, player, updateScore, resetScore, deletePlayer, u
   },[player.player]);
 
   return (
-    <div key={position} className='player-block'>
+    <Block key={position} shadow={stylesGame.shadow} color={stylesGame.color}>
       <HeaderBlock>
         <InputName 
           value={nameUpdate}
           onBlur={()=>updateName(position, player, nameUpdate)} 
           onChange={(e:any)=>setNameUpdate(e.target.value)}
+          color={stylesGame.font}
         />
         <DeletePlayer>
-          <Button 
-            minwidth='30px'
+          <IconButton 
+            minwidth='10px'
             onClick={()=>deletePlayer(position, player)}
+            color={stylesGame.shadow}
           >
-            X
-          </Button>
+            <X size={15} weight="bold" />
+          </IconButton>
         </DeletePlayer>
       </HeaderBlock>
 
-        <Divider color='#01553f'/>
-        <Score>{player.score}</Score>
-        <Divider color='#01553f'/>
+        <Divider color={stylesGame.shadow}/>
+        <Score color={stylesGame.font}>{player.score}</Score>
+        <Divider color={stylesGame.shadow}/>
 
         <ButtonContainer>
-          <Button 
+          <IconButton 
             full={true}
             onClick={()=>resetScore(position, player)}
+            color={stylesGame.shadow}
           >
+            <ArrowCounterClockwise size={20} />
             RESET
-          </Button>
+          </IconButton>
         </ButtonContainer>
 
         <ButtonContainer>
@@ -66,6 +71,7 @@ const PlayerBlock = ({position, player, updateScore, resetScore, deletePlayer, u
               full={true} 
               key={i}
               onClick={()=>updateScore(position, player, b.value)}
+              color={stylesGame.shadow}
             >
                 {b.title}
               </Button>
@@ -78,13 +84,13 @@ const PlayerBlock = ({position, player, updateScore, resetScore, deletePlayer, u
               full={true}
               key={i}
               onClick={()=>updateScore(position, player, b.value)}
+              color={stylesGame.shadow}
             >
               {b.title}
             </Button>
           ))}
         </ButtonContainer>
-
-    </div>
+    </Block>
   )
 }
 
