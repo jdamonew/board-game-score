@@ -1,6 +1,5 @@
-import {Default} from "./Default";
-import { ButtonContainer } from "./ButtonContainer";
-import { IconButton } from "./IconButton";
+
+import { IconButton, Default, ButtonContainer } from "./Button.style";
 
 export {
     IconButton,

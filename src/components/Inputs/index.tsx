@@ -1,4 +1,4 @@
-import { Default } from "./InputName";
+import { Default } from "./Input";
 
 export {
     Default as InputName
